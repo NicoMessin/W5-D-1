@@ -1,13 +1,36 @@
 package niccolomessina.W5_D_1.config;
 
-import org.springframework.context.annotation.Bean;
-
-import org.springframework.context.annotation.Configuration;
-import java.util.List;
+import com.github.javafaker.Faker;
 import niccolomessina.W5_D_1.entities.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
+
+import java.util.List;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class ConfigClass {
+
+    @Bean
+    public Faker faker() {
+        return new Faker();
+    }
+
+    @Value("${coperto.cost}")
+    private double coverCharge;
+
+    // ===== TABLE =====
+    @Bean
+    public Table table1() {
+        return new Table(1, 4, TableStatus.LIBERO);
+    }
+
+    // ===== ORDER =====
+    @Bean
+    @Scope("prototype")
+    public Order order(Table table1) {
+        return new Order(1, table1, 2);
+    }
 
     // ================= TOPPINGS =================
     @Bean
@@ -54,42 +77,22 @@ public class ConfigClass {
     // ================= PIZZAS =================
     @Bean
     public Pizza margherita() {
-        return new Pizza(
-                "Pizza Margherita",
-                1008,
-                4.99,
-               List.of()
-        );
+        return new Pizza("Pizza Margherita", 1008, 4.99, List.of());
     }
 
     @Bean
     public Pizza hawaiianPizza(Topping ham, Topping pineapple) {
-        return new Pizza(
-                "Hawaiian Pizza",
-                1008,
-                4.99,
-                List.of(ham, pineapple)
-        );
+        return new Pizza("Hawaiian Pizza", 1008, 4.99, List.of(ham, pineapple));
     }
 
     @Bean
     public Pizza salamiPizza(Topping salami) {
-        return new Pizza(
-                "Salami Pizza",
-                1008,
-                4.99,
-                List.of(salami)
-        );
+        return new Pizza("Salami Pizza", 1008, 4.99, List.of(salami));
     }
 
     @Bean
     public Pizza margheritaDoubleHam(Topping ham) {
-        return new Pizza(
-                "Margherita + Double Ham",
-                1008,
-                4.99,
-                List.of(ham, ham)
-        );
+        return new Pizza("Margherita + Double Ham", 1008, 4.99, List.of(ham, ham));
     }
 
     // ================= MENU =================

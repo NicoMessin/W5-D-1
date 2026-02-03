@@ -17,7 +17,7 @@ public class W5D1Application {
 				new AnnotationConfigApplicationContext(ConfigClass.class);
 
 
-		MenuEffettivo menu = ctx.etBean(MenuEffettivo.class);
+		MenuEffettivo menu = ctx.getBean(MenuEffettivo.class);
 		menu.print();
 
 
